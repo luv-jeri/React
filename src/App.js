@@ -1,88 +1,21 @@
 import './App.css';
 import { useState } from 'react';
-
-// const useState = (initial) => {
-//   let specialVariable = initial;
-//   const aFunctionThatChangesTheSpecialVariable = (value) => {
-//     specialVariable = value;
-//     root.render();
-//   };
-//   return [specialVariable, aFunctionThatChangesTheSpecialVariable];
-// };
-
+import Box from './components/Box';
 function App() {
-  const classForTheContainer = 'container';
+  // let show = true;
 
-  const special = useState(0);
-  const [count, setCount] = special;
-
-  const [color, setColor] = useState('black');
-
-  const boxStyle = {
-    margin: '10px',
-    border: '1px solid red',
-    borderRadius: '10%',
-    backgroundColor: color,
-  };
+  const [show, setShow] = useState(true);
 
   return (
-    <div className={classForTheContainer}>
-      <button
-        className='btn'
-        onClick={() => {
-          setCount(count + 1);
-        }}
-      >
-        Increase
-      </button>
-      <button
-        className='btn'
-        onClick={() => {
-          setCount(count - 1);
-        }}
-      >
-        Decrease
-      </button>
-      <div className='wrap'>
-        <div className='box' style={boxStyle}></div>
-      </div>
-      {count}
+    <div className='container'>
+      <div className='wrap'>{show ? <Box /> : null}</div>
       <div className='wrap'>
         <button
-          className='btn'
           onClick={() => {
-            setColor('red');
-            console.log(color);
+            setShow(!show);
           }}
         >
-          Red
-        </button>
-        <button
-          className='btn'
-          onClick={() => {
-            setColor('Yellow');
-            console.log(color);
-          }}
-        >
-          Yellow
-        </button>
-        <button
-          className='btn'
-          onClick={() => {
-            setColor('Green');
-            console.log(color);
-          }}
-        >
-          Green
-        </button>
-        <button
-          className='btn'
-          onClick={() => {
-            setColor('Blue');
-            console.log(color);
-          }}
-        >
-          Blue
+          {show ? 'Hide' : 'Show'}
         </button>
       </div>
     </div>
