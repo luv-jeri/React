@@ -1,6 +1,6 @@
 import './App.css';
 import { useState } from 'react';
-
+import Button from './components/Button';
 // const useState = (initial) => {
 //   let specialVariable = initial;
 //   const aFunctionThatChangesTheSpecialVariable = (value) => {
@@ -23,67 +23,57 @@ function App() {
     border: '1px solid red',
     borderRadius: '10%',
     backgroundColor: color,
+    display : 'flex',
+    justifyContent : 'center',
+    alignItems : 'center',
+    color : 'white',
   };
 
   return (
     <div className={classForTheContainer}>
-      <button
-        className='btn'
-        onClick={() => {
+      <Button
+        title='increase'
+        click={() => {
           setCount(count + 1);
         }}
-      >
-        Increase
-      </button>
-      <button
-        className='btn'
-        onClick={() => {
+      />
+      <Button
+        title='decrease'
+        click={() => {
           setCount(count - 1);
         }}
-      >
-        Decrease
-      </button>
+      />
       <div className='wrap'>
-        <div className='box' style={boxStyle}></div>
+        <div className='box' style={boxStyle}>
+          <h1>{count}</h1>
+        </div>
       </div>
-      {count}
       <div className='wrap'>
-        <button
-          className='btn'
-          onClick={() => {
+        {/* {Button("Red")} */}
+        <Button
+          title='Red'
+          click={() => {
             setColor('red');
-            console.log(color);
           }}
-        >
-          Red
-        </button>
-        <button
-          className='btn'
-          onClick={() => {
-            setColor('Yellow');
-            console.log(color);
+        />
+        <Button
+          title='Yellow'
+          click={() => {
+            setColor('yellow');
           }}
-        >
-          Yellow
-        </button>
-        <button
-          className='btn'
-          onClick={() => {
-            setColor('Green');
-            console.log(color);
+        />
+        <Button
+          title='Green'
+          click={() => {
+            setColor('green');
           }}
-        >
-          Green
-        </button>
-        <button
-          className='btn'
-          onClick={() => {
-            setColor('Blue');
-            console.log(color);
+        />
+        <Button
+          title='Blue'
+          click={() => {
+            setColor('blue');
           }}
-        >
-          Blue
-        </button>
+        />
       </div>
     </div>
   );

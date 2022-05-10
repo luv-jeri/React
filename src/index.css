@@ -7,4 +7,8 @@
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
+  background-color: #e5e5f7;
+opacity: 0.8;
+background-size: 20px 20px;
+background-image:  repeating-linear-gradient(0deg, #444cf7, #444cf7 1px, #e5e5f7 1px, #e5e5f7);
 }
