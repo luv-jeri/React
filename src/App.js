@@ -2,17 +2,17 @@ import './App.css';
 import { useState } from 'react';
 import Button from './components/Button/Button';
 import Greeter from './components/Greeter/Greeter';
+import Board from './components/Board/Board';
 function App() {
-  const [showGreeter, setShowGreeter] = useState(true);
+  const [showBoard, setShowBoard] = useState(true);
+
+  const handleShowHide = () => {
+    setShowBoard(!showBoard);
+  };
   return (
     <div className='container'>
-      {showGreeter ? <Greeter /> : null}
-      <Button
-        title={showGreeter ? 'hide' : 'show'}
-        click={() => {
-          setShowGreeter(!showGreeter);
-        }}
-      />
+      {showBoard ? <Board /> : null}
+      <Button title={showBoard ? 'hide' : 'show'} click={handleShowHide} />
     </div>
   );
 }
