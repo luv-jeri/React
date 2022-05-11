@@ -1,18 +1,30 @@
 import './App.css';
 import { useState } from 'react';
 import Button from './components/Button/Button';
-import Greeter from './components/Greeter/Greeter';
-import Board from './components/Board/Board';
-function App() {
-  const [showBoard, setShowBoard] = useState(true);
+import PlzDoCard from './components/PlzDoCard/PlzDoCard';
+import FloatingButton from './components/FloatingButton/floatingButton';
+import AddTask from './components/AddTask/AddTask';
 
-  const handleShowHide = () => {
-    setShowBoard(!showBoard);
+function App() {
+  const [showAdd, setShowAdd] = useState(false);
+
+  const [tasks, setTasks] = useState([]);
+
+  const addTask = (task) => {
+    setTasks([...tasks, task]);
   };
+
+  const handleClick = () => {
+    setShowAdd(!showAdd);
+  };
+
   return (
     <div className='container'>
-      {showBoard ? <Board /> : null}
-      <Button title={showBoard ? 'hide' : 'show'} click={handleShowHide} />
+      {tasks.map((task) => {
+        return <PlzDoCard title={task.title} task={task.task} />;
+      })}
+      {showAdd ? <AddTask addTaskFunction={addTask} setShowAdd={setShowAdd} /> : null}
+      <FloatingButton click={handleClick} />
     </div>
   );
 }

@@ -1,0 +1,13 @@
+.card-wrap {
+  width: 300px;
+  height: 150px;
+  padding: 2rem;
+  margin: 0.5rem 1rem;
+  color : #EEEEEE;
+  background: rgb(0, 9, 44, 0.8);
+  box-shadow: 0 8px 32px 0 rgb(0, 9, 44, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
