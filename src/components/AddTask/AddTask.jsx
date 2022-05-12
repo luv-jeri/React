@@ -19,20 +19,34 @@ export default function AddTask({ addTaskFunction, setShowAdd }) {
 
   return (
     <div
-      className='task-wrap'
-      onKeyDown={(e) => {
-        if (e.code === 'Enter') {
-          handleClick();
-        }
-        if (e.code === 'Escape') {
+      className='task-container'
+      onKeyDown={(event) => {
+        if (event.keyCode === 27) {
           setShowAdd(false);
         }
       }}
-    >
-      <h3>Add Task</h3>
-      <input className='task-input' label='title' onChange={handleTitleChange} />
-      <input className='task-input' label='task' onChange={handleTaskChange} />
-      <Button title='ADD' click={handleClick}></Button>
+      onClick={(event) => {
+        if (event.target.className === 'task-container') {
+          setShowAdd(false);
+        }
+      }}
+    > 
+      <div
+        className='task-wrap'
+        onKeyDown={(e) => {
+          if (e.code === 'Enter') {
+            handleClick();
+          }
+          if (e.code === 'Escape') {
+            setShowAdd(false);
+          }
+        }}
+      >
+        <h3>Add Task</h3>
+        <input className='task-input' label='title' onChange={handleTitleChange} />
+        <input className='task-input' label='task' onChange={handleTaskChange} />
+        <Button title='ADD' click={handleClick}></Button>
+      </div>
     </div>
   );
 }
