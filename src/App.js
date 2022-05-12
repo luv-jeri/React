@@ -60,8 +60,8 @@ function App() {
     setShowAdd(!showAdd);
   };
 
-  console.log(tasks);
 
+  
   return (
     <div className='container'>
       {tasks.map((task) => {
