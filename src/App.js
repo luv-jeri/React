@@ -1,22 +1,21 @@
 import './App.css';
-import { useRef, useState, useEffect } from 'react';
-import Button from './components/Button';
-import Card from './components/Card';
+import Home from './pages/Home';
+import About from './pages/About';
+
+import { useState, useEffect } from 'react';
+
 function App() {
-  const [count, setCount] = useState(0);
-  //setCount( pass some value to setCount )
-  const [card, setCard] = useState('');
+  var path = window.location.pathname;
+  var page = path.split('/').pop(); //` http://localhost:3000/about
+  console.log(page);
 
   return (
     <div className='container'>
-      <h1>{card}</h1>
-      <Card head={'Count'} value={count} setter={setCard} />
-      <Button
-        title={'INC'}
-        fun={() => {
-          setCount(count + 1);
-        }}
-      />
+      <nav>
+        <a href='/'>Home</a>
+        <a href='/about'>About</a>
+      </nav>
+      {page === '' ? <Home /> : <About />}
     </div>
   );
 }

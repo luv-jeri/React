@@ -47,3 +47,22 @@ input {
   transition: all 0.2s ease-in-out;
   padding: 1rem 0.5rem;
 }
+
+nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100vw;
+  height: 100px;
+  background-color: #035a66;
+  color: aliceblue;
+}
+
+a {
+  color: aliceblue;
+  text-decoration: none;
+  border: 2px solid aliceblue;
+  padding: 2rem 1rem;
+  background-color: #97c4b8;
+  border-radius: 10px;
+}
