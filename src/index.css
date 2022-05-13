@@ -50,6 +50,7 @@ input {
 
 nav {
   display: flex;
+  flex-direction: row;
   justify-content: space-around;
   align-items: center;
   width: 100vw;
@@ -62,7 +63,7 @@ a {
   color: aliceblue;
   text-decoration: none;
   border: 2px solid aliceblue;
-  padding: 2rem 1rem;
+  padding: 1rem 0.3rem;
   background-color: #97c4b8;
   border-radius: 10px;
 }

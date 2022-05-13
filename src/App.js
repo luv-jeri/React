@@ -1,21 +1,38 @@
 import './App.css';
-import Home from './pages/Home';
-import About from './pages/About';
-
-import { useState, useEffect } from 'react';
-
+import Page from './pages/Page';
+import { HashRouter, Routes, Route, Link } from 'react-router-dom';
 function App() {
-  var path = window.location.pathname;
-  var page = path.split('/').pop(); //` http://localhost:3000/about
-  console.log(page);
-
+  const page = [
+    'Home',
+    'About',
+    'Contact',
+    'Portfolio',
+    'Blog',
+    'Shop',
+    'Login',
+    'Register',
+  ];
   return (
     <div className='container'>
-      <nav>
-        <a href='/'>Home</a>
-        <a href='/about'>About</a>
-      </nav>
-      {page === '' ? <Home /> : <About />}
+      <HashRouter>
+        <nav>
+          {page.map((item, index) => {
+            return (
+              <div className='link' key={index}>
+                <Link to={`/${item.toLowerCase()}`}>{item}</Link>
+              </div>
+            );
+          })}
+        </nav>
+
+        <Routes>
+          {page.map((item) => {
+            return (
+              <Route path={`/${item.toLowerCase()}`} element={<Page>{item}</Page>} />
+            );
+          })}
+        </Routes>
+      </HashRouter>
     </div>
   );
 }
