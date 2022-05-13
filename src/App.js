@@ -1,90 +1,93 @@
 import './App.css';
-import { useState } from 'react';
-
-// const useState = (initial) => {
-//   let specialVariable = initial;
-//   const aFunctionThatChangesTheSpecialVariable = (value) => {
-//     specialVariable = value;
-//     root.render();
-//   };
-//   return [specialVariable, aFunctionThatChangesTheSpecialVariable];
-// };
+import { useRef, useState, useEffect } from 'react';
 
 function App() {
-  const classForTheContainer = 'container';
+  const [count, setCount] = useState(0);
 
-  const special = useState(0);
-  const [count, setCount] = special;
+  const refVariable = useRef(0);
 
-  const [color, setColor] = useState('black');
+  let simpleVar = 0;
 
-  const boxStyle = {
-    margin: '10px',
-    border: '1px solid red',
-    borderRadius: '10%',
-    backgroundColor: color,
-  };
+  console.log('RERENDER');
+  console.log('refVariable', refVariable);
+  console.log('count', count);
+  console.log('simpleVar', simpleVar);
+
+  console.log('document', document);
+  // ! DO NOT USE THIS
+  //   const nameInput = document.getElementById('name-input');
+  //   console.log('INPUT', nameInput); -> null
+  // nameInput.focus();
+
+  const inputRef = useRef(0);
+  console.log('inputRef', inputRef);
+  // focus on input
 
   return (
-    <div className={classForTheContainer}>
-      <button
-        className='btn'
-        onClick={() => {
-          setCount(count + 1);
+    <div className='container'>
+      <input
+        id='name-input'
+        ref={inputRef}
+        value={inputRef.current.value}
+        onChange={(e) => {
+          inputRef.current = e.target.value;
+          console.log(inputRef);
         }}
-      >
-        Increase
-      </button>
-      <button
-        className='btn'
-        onClick={() => {
-          setCount(count - 1);
-        }}
-      >
-        Decrease
-      </button>
-      <div className='wrap'>
-        <div className='box' style={boxStyle}></div>
+      />
+      <div>
+        <h1>useRef</h1>
+        <h2>Count : {count}</h2>
+        <h2>Ref : {refVariable.current}</h2>
       </div>
-      {count}
-      <div className='wrap'>
-        <button
-          className='btn'
-          onClick={() => {
-            setColor('red');
-            console.log(color);
-          }}
-        >
-          Red
-        </button>
-        <button
-          className='btn'
-          onClick={() => {
-            setColor('Yellow');
-            console.log(color);
-          }}
-        >
-          Yellow
-        </button>
-        <button
-          className='btn'
-          onClick={() => {
-            setColor('Green');
-            console.log(color);
-          }}
-        >
-          Green
-        </button>
-        <button
-          className='btn'
-          onClick={() => {
-            setColor('Blue');
-            console.log(color);
-          }}
-        >
-          Blue
-        </button>
-      </div>
+      <>
+        <h4>State Button</h4>
+        <div className='btn-grp'>
+          <button onClick={() => setCount(count + 1)}>Increment</button>
+          <button onClick={() => setCount(count - 1)}>Decrement</button>
+        </div>
+      </>
+      <>
+        <h4>Simple Var</h4>
+        <div className='btn-grp'>
+          <button
+            onClick={() => {
+              simpleVar = simpleVar + 1;
+              console.log(simpleVar);
+            }}
+          >
+            Increment
+          </button>
+          <button
+            onClick={() => {
+              simpleVar = simpleVar - 1;
+              console.log(simpleVar);
+            }}
+          >
+            Decrement
+          </button>
+        </div>
+      </>
+      <>
+        <h4>Ref Button</h4>
+        <div className='btn-grp'>
+          <button
+            onClick={() => {
+              refVariable.current = refVariable.current + 1;
+              console.log(refVariable);
+            }}
+          >
+            Increment
+          </button>
+          <button
+            onClick={() => {
+              refVariable.current = refVariable.current - 1;
+              console.log(refVariable);
+            }}
+          >
+            Decrement
+          </button>
+        </div>
+      </>
     </div>
   );
 }
