@@ -1,80 +1,29 @@
 import './App.css';
 import { useState } from 'react';
-import Button from './components/Button';
-// const useState = (initial) => {
-//   let specialVariable = initial;
-//   const aFunctionThatChangesTheSpecialVariable = (value) => {
-//     specialVariable = value;
-//     root.render();
-//   };
-//   return [specialVariable, aFunctionThatChangesTheSpecialVariable];
-// };
+import A from './components/A';
 
 function App() {
-  const classForTheContainer = 'container';
+  // const states = useState(0); //` [ 0 , setter ]
 
-  const special = useState(0);
-  const [count, setCount] = special;
+  // const randomNumber = states[0]
+  // const setRandomNumber = states[1]
 
-  const [color, setColor] = useState('black');
+  const [randomNumber, setRandomNumber] = useState(0);
 
-  const boxStyle = {
-    margin: '10px',
-    border: '1px solid red',
-    borderRadius: '10%',
-    backgroundColor: color,
-    display : 'flex',
-    justifyContent : 'center',
-    alignItems : 'center',
-    color : 'white',
-  };
+  // const [randomNumber, setRandomNumber] = useState(0);
 
   return (
-    <div className={classForTheContainer}>
-      <Button
-        title='increase'
-        click={() => {
-          setCount(count + 1);
-        }}
-      />
-      <Button
-        title='decrease'
-        click={() => {
-          setCount(count - 1);
-        }}
-      />
-      <div className='wrap'>
-        <div className='box' style={boxStyle}>
-          <h1>{count}</h1>
-        </div>
-      </div>
-      <div className='wrap'>
-        {/* {Button("Red")} */}
-        <Button
-          title='Red'
-          click={() => {
-            setColor('red');
-          }}
-        />
-        <Button
-          title='Yellow'
-          click={() => {
-            setColor('yellow');
-          }}
-        />
-        <Button
-          title='Green'
-          click={() => {
-            setColor('green');
-          }}
-        />
-        <Button
-          title='Blue'
-          click={() => {
-            setColor('blue');
-          }}
-        />
-      </div>
+    <div className='container'>
+      <A random={randomNumber} setRandomNumber={setRandomNumber} />
+
+      {/* {A({
+        name: 'Sanjay',
+        age: 22,
+      })}
+      {A({
+        name: 'Mukesh',
+        age: 23,
+      })} */}
     </div>
   );
 }
