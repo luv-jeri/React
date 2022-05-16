@@ -1,21 +1,21 @@
 import './App.css';
 import { useState } from 'react';
 import A from './components/A';
+import B from './components/B';
+import C from './components/C';
 
 function App() {
-  // const states = useState(0); //` [ 0 , setter ]
-
-  // const randomNumber = states[0]
-  // const setRandomNumber = states[1]
-
   const [randomNumber, setRandomNumber] = useState(0);
   const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
 
   return (
     <div className='container'>
-      <h1> A random name : {name}</h1>
+      <h1> I am parent A B C</h1>
 
       <A randomNumber={randomNumber} setter={setName} />
+      <B setter={setSurname} />
+      <C name={name} surname={surname} />
 
       <button
         onClick={() => {
