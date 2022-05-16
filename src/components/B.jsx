@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
-
-import { count } from '../contexts/count';
+import React from 'react';
+import { useCount } from '../contexts/count';
 
 export default function B() {
-  const countContext = useContext(count);
+  const countContext = useCount();
 
   return (
     <div>
