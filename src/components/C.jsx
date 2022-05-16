@@ -1,10 +1,7 @@
-import React from 'react';
-import names from './name.js';
+import React, { useContext } from 'react';
+import { count } from '../App';
 
-export default function C({ name, surname }) {
-  return (
-    <div>
-      I am C and i will show the names {name} {surname}😀
-    </div>
-  );
+export default function C() {
+  const countContext = useContext(count);
+  return <div> Count - {countContext.count} 😀</div>;
 }

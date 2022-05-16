@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
-import names from './name.js';
-
-export default function B({ setter }) {
-  const surname = names[Math.floor(Math.random() * 150)];
-  setter(surname);
-
-  return <div>I am B and i will give surname : {surname}😀</div>;
+import React, { useContext } from 'react';
+import { count } from '../App';
+export default function B() {
+  const countContext = useContext(count);
+  return (
+    <div>
+      <button
+        onClick={() => {
+          countContext.setCount(countContext.count + 1);
+        }}
+      >
+        Inc count
+      </button>
+    </div>
+  );
 }
