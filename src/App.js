@@ -9,12 +9,22 @@ function App() {
   // const setRandomNumber = states[1]
 
   const [randomNumber, setRandomNumber] = useState(0);
-
-  // const [randomNumber, setRandomNumber] = useState(0);
+  const [name, setName] = useState('');
 
   return (
     <div className='container'>
-      <A random={randomNumber} setRandomNumber={setRandomNumber} />
+      <h1> A random name : {name}</h1>
+
+      <A randomNumber={randomNumber} setter={setName} />
+
+      <button
+        onClick={() => {
+          const tempRandomNumber = Math.floor(Math.random() * 100);
+          setRandomNumber(tempRandomNumber);
+        }}
+      >
+        Generate a random number
+      </button>
 
       {/* {A({
         name: 'Sanjay',
