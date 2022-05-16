@@ -1,7 +1,10 @@
 import React, { useContext } from 'react';
-import { count } from '../App';
+
+import { count } from '../contexts/count';
+
 export default function B() {
   const countContext = useContext(count);
+
   return (
     <div>
       <button
@@ -9,7 +12,7 @@ export default function B() {
           countContext.setCount(countContext.count + 1);
         }}
       >
-        Inc count
+        INC
       </button>
     </div>
   );

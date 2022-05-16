@@ -1,16 +1,10 @@
 import React, { useContext } from 'react';
-import { name } from '../App';
-import { job } from '../App';
-
+import { count } from '../contexts/count';
 export default function A() {
-  const jobWaleContextKiValue = useContext(job);
-
+  const countContext = useContext(count);
   return (
     <div>
-      <h1>{jobWaleContextKiValue.name}</h1>
-      {jobWaleContextKiValue.job.map((el, i) => {
-        return <div key={i}>{el}</div>;
-      })}
+      <h1>A - {countContext.count}</h1>
     </div>
   );
 }

@@ -1,7 +1,9 @@
-import React, { useContext } from 'react';
-import { count } from '../App';
+import React from 'react';
 
-export default function C() {
-  const countContext = useContext(count);
-  return <div> Count - {countContext.count} 😀</div>;
+export default function A() {
+  return (
+    <div>
+      <h1>A</h1>
+    </div>
+  );
 }
