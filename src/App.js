@@ -5,16 +5,70 @@ import PlzDoCard from './components/PlzDoCard/PlzDoCard';
 import FloatingButton from './components/FloatingButton/floatingButton';
 import AddTask from './components/AddTask/AddTask';
 
+import db from './firebase';
+import {
+  collection,
+  doc,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  setDoc,
+  onSnapshot,
+} from 'firebase/firestore';
+
 function App() {
+  const todo_collection = collection(db, 'todos');
+
+  const [tasks, setTasks] = useState([]);
+
+  const getData = async () => {
+    try {
+      const data = await getDocs(todo_collection);
+
+      const dataArr = [];
+
+      data.forEach((doc) => {
+        dataArr.push(doc.data());
+      });
+
+      setTasks(dataArr);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const [showAdd, setShowAdd] = useState(false);
 
-  const offlineTask = JSON.parse(localStorage.getItem('task'));
-
-  const [tasks, setTasks] = useState(offlineTask || []);
-
   useEffect(() => {
-    localStorage.setItem('task', JSON.stringify(tasks));
-  }, [tasks]);
+    onSnapshot(todo_collection, (snapshot) => {
+      const data = [];
+      snapshot.forEach((doc) => {
+        data.push(doc.data());
+      });
+      setTasks(data);
+    });
+  }, []);
+  // ` addDoc
+  // const addData = async (data) => {
+  //   console.log('Adding data');
+  //   try {
+  //     const savedData = await addDoc(todo_collection, data);
+  //     console.log(savedData.id);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
+  const addData = async (data) => {
+    console.log('Adding data');
+    try {
+      const newDoc = doc(todo_collection, `${data.id}`);
+
+      const savedData = await setDoc(newDoc, data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const addTask = (task) => {
     const { title, task: taskText } = task;
@@ -28,9 +82,8 @@ function App() {
       title,
       task: taskText,
     };
-    const newTaskArray = [...tasks, newTask];
-    setTasks(newTaskArray);
-    // setTasks([...tasks, {...task, id: randomId}]);
+
+    addData(newTask);
   };
 
   const editTask = (id, edit) => {
@@ -60,8 +113,12 @@ function App() {
     setShowAdd(!showAdd);
   };
 
+  const remove = async () => {
+    const to_delete = doc(db, 'todos', 'PIWoTvYE0otlRhaQ9cxl');
+    deleteDoc(to_delete);
+  };
+  remove();
 
-  
   return (
     <div className='container'>
       {tasks.map((task) => {
