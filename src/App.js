@@ -1,139 +1,154 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import Button from './components/Button/Button';
-import PlzDoCard from './components/PlzDoCard/PlzDoCard';
-import FloatingButton from './components/FloatingButton/floatingButton';
-import AddTask from './components/AddTask/AddTask';
 
-import db from './firebase';
+import { auth } from './firebase';
+import // collection,
+// doc,
+// addDoc,
+// getDocs,
+// deleteDoc,
+// setDoc,
+// onSnapshot,
+'firebase/firestore';
+
 import {
-  collection,
-  doc,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  setDoc,
-  onSnapshot,
-} from 'firebase/firestore';
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+  getAuth,
+} from 'firebase/auth';
 
 function App() {
-  const todo_collection = collection(db, 'todos');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const [tasks, setTasks] = useState([]);
-
-  const getData = async () => {
+  const signUp = async () => {
     try {
-      const data = await getDocs(todo_collection);
-
-      const dataArr = [];
-
-      data.forEach((doc) => {
-        dataArr.push(doc.data());
-      });
-
-      setTasks(dataArr);
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(user);
     } catch (e) {
       console.log(e);
     }
   };
-
-  const [showAdd, setShowAdd] = useState(false);
 
   useEffect(() => {
-    onSnapshot(todo_collection, (snapshot) => {
-      const data = [];
-      snapshot.forEach((doc) => {
-        data.push(doc.data());
-      });
-      setTasks(data);
+    auth.onAuthStateChanged((data) => {
+      setUser(data);
     });
   }, []);
-  // ` addDoc
-  // const addData = async (data) => {
-  //   console.log('Adding data');
-  //   try {
-  //     const savedData = await addDoc(todo_collection, data);
-  //     console.log(savedData.id);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
 
-  const addData = async (data) => {
-    console.log('Adding data');
+  const signIn = async () => {
     try {
-      const newDoc = doc(todo_collection, `${data.id}`);
-
-      const savedData = await setDoc(newDoc, data);
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const addTask = (task) => {
-    const { title, task: taskText } = task;
-    if (!title || !taskText) {
-      alert('Please fill in all fields');
-      return;
-    }
-    const randomId = Math.floor(Math.random() * 1000000);
-    const newTask = {
-      id: randomId,
-      title,
-      task: taskText,
-    };
-
-    addData(newTask);
+  const logout = async () => {
+    await signOut(auth);
   };
 
-  const editTask = (id, edit) => {
-    const { title, task } = edit;
-
-    const updatedTasks = tasks.map((task_el) => {
-      if (task_el.id === id) {
-        return {
-          title,
-          task,
-        };
-      }
-      return task_el;
-    });
-
-    setTasks(updatedTasks);
+  const [user, setUser] = useState(null);
+  const google = async () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+    console.log(user, token);
   };
-  const deleteTask = (id) => {
-    const updatedTasks = tasks.filter((task) => task.id !== id);
-
-    console.log(updatedTasks);
-
-    setTasks(updatedTasks);
-  };
-
-  const handleClick = () => {
-    setShowAdd(!showAdd);
-  };
-
-  const remove = async () => {
-    const to_delete = doc(db, 'todos', 'PIWoTvYE0otlRhaQ9cxl');
-    deleteDoc(to_delete);
-  };
-  remove();
-
   return (
     <div className='container'>
-      {tasks.map((task) => {
-        return (
-          <PlzDoCard
-            editTaskFunction={editTask}
-            deleteTaskFunction={deleteTask}
-            title={task.title}
-            task={task.task}
-            id={task.id}
+      <button onClick={google}>GOOGLE</button>
+      {user ? (
+        <div
+          style={{
+            flex: 1,
+          }}
+        >
+          <h1>Hello {user.email}</h1>
+        </div>
+      ) : (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flex: 1,
+          }}
+        >
+          <h2>Sign-IN</h2>
+          <input
+            type='email'
+            label='Email'
+            placeholder='Email'
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
           />
-        );
-      })}
-      {showAdd ? <AddTask addTaskFunction={addTask} setShowAdd={setShowAdd} /> : null}
-      <FloatingButton click={handleClick} />
+          <input
+            type='password'
+            label='Password'
+            placeholder='Password'
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <button onClick={signIn}>Sign In</button>
+        </div>
+      )}
+      {/* <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        {' '}
+        <h2>Sign-Up</h2>
+        <input
+          type='email'
+          label='Email'
+          placeholder='Email'
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        />
+        <input
+          type='password'
+          label='Password'
+          placeholder='Password'
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        />
+        <button onClick={signUp}>Sign Up</button>
+      </div> */}
+
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 10,
+          right: 10,
+          height: ' 50px',
+          width: '50px',
+          borderRadius: '50%',
+        }}
+        onClick={logout}
+      >
+        ➕
+      </div>
     </div>
   );
 }
