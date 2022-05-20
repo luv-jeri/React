@@ -46,7 +46,7 @@ export default function SingUp() {
             Hello, Visitor !
           </Text>
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col md={6}>
           <TextInput
             placeholder='Enter your first name. 😀'
             label='First Name'
@@ -60,7 +60,7 @@ export default function SingUp() {
             required
           />
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col md={6} span={6}>
           <TextInput
             placeholder='Enter your last name. 😀'
             label='Last Name'
@@ -106,7 +106,7 @@ export default function SingUp() {
             type='tel'
           />
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col md={6}>
           <PasswordInput
             placeholder='Password'
             label='Password'
@@ -120,7 +120,7 @@ export default function SingUp() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col md={6}>
           <PasswordInput
             placeholder='Confirm  Password'
             label='Confirm Password'
@@ -134,7 +134,7 @@ export default function SingUp() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col md={6}>
           <RadioGroup
             label='Gender ?'
             description='Please choose a gender'
@@ -150,7 +150,7 @@ export default function SingUp() {
             <Radio value='other' label='other' />
           </RadioGroup>
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col md={6}>
           <DatePicker
             placeholder='DOB'
             label='Happy Bday ?'
