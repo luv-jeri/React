@@ -1,156 +1,90 @@
-import './App.css';
-import { useState, useEffect } from 'react';
-
-import { auth } from './firebase';
-import // collection,
-// doc,
-// addDoc,
-// getDocs,
-// deleteDoc,
-// setDoc,
-// onSnapshot,
-'firebase/firestore';
-
+import React, { useState } from 'react';
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  GoogleAuthProvider,
-  signInWithPopup,
-  getAuth,
-} from 'firebase/auth';
+  AppShell,
+  Navbar,
+  Header,
+  Footer,
+  Aside,
+  Text,
+  MediaQuery,
+  Burger,
+  useMantineTheme,
+} from '@mantine/core';
 
-function App() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const signUp = async () => {
-    try {
-      const user = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(user);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    auth.onAuthStateChanged((data) => {
-      setUser(data);
-    });
-  }, []);
-
-  const signIn = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const logout = async () => {
-    await signOut(auth);
-  };
-
-  const [user, setUser] = useState(null);
-  const google = async () => {
-    const auth = getAuth();
-    const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    // The signed-in user info.
-    const user = result.user;
-    console.log(user, token);
-  };
+export default function App() {
+  const theme = useMantineTheme();
+  const [opened, setOpened] = useState(false);
+  const [opened2, setOpened2] = useState(false);
   return (
-    <div className='container'>
-      <button onClick={google}>GOOGLE</button>
-      {user ? (
-        <div
-          style={{
-            flex: 1,
-          }}
+    <AppShell
+      navbarOffsetBreakpoint='sm'
+      asideOffsetBreakpoint='sm'
+      fixed
+      navbar={
+        <Navbar
+          p='md'
+          hiddenBreakpoint='sm'
+          hidden={!opened}
+          width={{ sm: 200, lg: 300 }}
         >
-          <h1>Hello {user.email}</h1>
-        </div>
-      ) : (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flex: 1,
-          }}
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+        </Navbar>
+      }
+      aside={
+        <Aside
+          p='md'
+          hiddenBreakpoint='sm'
+          hidden={!opened2}
+          width={{ sm: 200, lg: 300 }}
         >
-          <h2>Sign-IN</h2>
-          <input
-            type='email'
-            label='Email'
-            placeholder='Email'
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-          <input
-            type='password'
-            label='Password'
-            placeholder='Password'
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
-          <button onClick={signIn}>Sign In</button>
-        </div>
-      )}
-      {/* <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        {' '}
-        <h2>Sign-Up</h2>
-        <input
-          type='email'
-          label='Email'
-          placeholder='Email'
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-        <input
-          type='password'
-          label='Password'
-          placeholder='Password'
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
-        <button onClick={signUp}>Sign Up</button>
-      </div> */}
-
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 10,
-          right: 10,
-          height: ' 50px',
-          width: '50px',
-          borderRadius: '50%',
-        }}
-        onClick={logout}
-      >
-        ➕
-      </div>
-    </div>
+          <Text>Application sidebar</Text>
+          <Text>Application sidebar</Text>
+          <Text>Application sidebar</Text>
+          <Text>Application sidebar</Text>
+          <Text>Application sidebar</Text>
+          <Text>Application sidebar</Text>
+          <Text>Application sidebar</Text>
+        </Aside>
+      }
+      footer={
+        <Footer height={60} p='md'>
+          Application footer Application footer Application footer Application footer
+          Application footer Application footer
+        </Footer>
+      }
+      header={
+        <Header height={70} p='md'>
+          <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+            <MediaQuery largerThan='sm' styles={{ display: 'none' }}>
+              <Burger
+                opened={opened}
+                onClick={() => setOpened((o) => !o)}
+                size='sm'
+                color={theme.colors.gray[6]}
+                mr='xl'
+              />
+            </MediaQuery>
+            <MediaQuery largerThan='sm' styles={{ display: 'none' }}>
+              <Burger
+                opened={opened2}
+                onClick={() => setOpened2((o) => !o)}
+                size='sm'
+                color={theme.colors.gray[6]}
+                mr='xl'
+              />
+            </MediaQuery>
+            <Text>Application header</Text>
+          </div>
+        </Header>
+      }
+    >
+      <Text>Resize app to see responsive navbar in action</Text>
+    </AppShell>
   );
 }
-
-export default App;
