@@ -1,8 +1,9 @@
 import React from 'react';
-import { AppShell, Navbar, Header } from '@mantine/core';
+import { AppShell, Navbar, Header, Button } from '@mantine/core';
 import { At, PhoneCall, MoodSmile } from 'tabler-icons-react';
-
+import useAuth from '../../context/Auth.context';
 export default function Home() {
+  const { logout } = useAuth();
   return (
     <AppShell
       padding='md'
@@ -15,7 +16,19 @@ export default function Home() {
       }
       header={
         <Header height={60} p='xs'>
-          <h1>Its a header</h1>
+          <Button
+            leftIcon={<MoodSmile size={24} />}
+            fullWidth
+            variant='subtle'
+            color='grape'
+            radius='lg'
+            size='md'
+            onClick={() => {
+              logout();
+            }}
+          >
+            Logout
+          </Button>
         </Header>
       }
       styles={(theme) => ({

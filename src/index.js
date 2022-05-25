@@ -4,18 +4,18 @@ import App from './App';
 import './index.css';
 import { MantineProvider } from '@mantine/core';
 import { BrowserRouter as Router } from 'react-router-dom';
-import UserContext from './context/User.context';
+import { AuthProvider } from './context/Auth.context';
 
 const el = document.getElementById('root');
 
 const root = ReactDOM.createRoot(el);
 
 root.render(
-  <UserContext>
+  <AuthProvider>
     <Router>
       <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
         <App />
       </MantineProvider>
     </Router>
-  </UserContext>
+  </AuthProvider>
 );

@@ -12,6 +12,7 @@ import {
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { At, PhoneCall, MoodSmile } from 'tabler-icons-react';
+import useAuth from '../../context/Auth.context';
 
 export default function SingUp() {
   const [firstName, setFirstName] = React.useState('');
@@ -24,13 +25,7 @@ export default function SingUp() {
   const [terms, setTerms] = React.useState(false);
   const [DOB, setDOB] = React.useState(new Date());
 
-  const signup = (email, password, confirmPassword) => {
-    // term -> true
-    // check if passwords match and if email is valid
-    // signup user
-    // if signup is successful,
-    // then save the rest of the details in a collection "users"
-  };
+  const { signup } = useAuth();
 
   return (
     <Container>
@@ -177,6 +172,9 @@ export default function SingUp() {
             color='grape'
             radius='lg'
             size='md'
+            onClick={() => {
+              signup(email, password);
+            }}
           >
             Sign Up
           </Button>

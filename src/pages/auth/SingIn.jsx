@@ -12,18 +12,14 @@ import {
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { At, PhoneCall, MoodSmile } from 'tabler-icons-react';
-import { useUser } from '../../context/User.context';
+import useAuth from '../../context/Auth.context';
 
 export default function SingIn() {
   const [email, setEmail] = React.useState('');
 
   const [password, setPassword] = React.useState('');
 
-  const { setIsLogged } = useUser();
-
-  const login = () => {
-    setIsLogged(true);
-  };
+  const { login } = useAuth();
 
   return (
     <Container>
@@ -80,7 +76,9 @@ export default function SingIn() {
             color='grape'
             radius='lg'
             size='md'
-            onClick={login}
+            onClick={() => {
+              login(email, password);
+            }}
           >
             Sign In
           </Button>
