@@ -5,17 +5,20 @@ import './index.css';
 import { MantineProvider } from '@mantine/core';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from './context/Auth.context';
+import { NotificationsProvider } from '@mantine/notifications';
 
 const el = document.getElementById('root');
 
 const root = ReactDOM.createRoot(el);
 
 root.render(
-  <AuthProvider>
-    <Router>
-      <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
-        <App />
-      </MantineProvider>
-    </Router>
-  </AuthProvider>
+  <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
+    <NotificationsProvider position='top-right' limit={10}>
+      <AuthProvider>
+        <Router>
+          <App />
+        </Router>
+      </AuthProvider>
+    </NotificationsProvider>
+  </MantineProvider>
 );
