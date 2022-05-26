@@ -14,6 +14,8 @@ import { DatePicker } from '@mantine/dates';
 import { At, PhoneCall, MoodSmile } from 'tabler-icons-react';
 import useAuth from '../../context/Auth.context';
 
+import { useNavigate } from 'react-router-dom';
+
 export default function SingUp() {
   const [firstName, setFirstName] = React.useState('');
   const [lastName, setLastName] = React.useState('');
@@ -24,6 +26,8 @@ export default function SingUp() {
   const [gender, setGender] = React.useState('');
   const [terms, setTerms] = React.useState(false);
   const [DOB, setDOB] = React.useState(new Date());
+
+  const navigate = useNavigate();
 
   const { signup } = useAuth();
 
@@ -106,7 +110,7 @@ export default function SingUp() {
             placeholder='Password'
             label='Password'
             description='Password must include at least one letter, number and special character'
-            error='Please entet a password'
+            // error='Please entet a password'
             variant='filled'
             radius='lg'
             size='md'
@@ -164,7 +168,15 @@ export default function SingUp() {
             onChange={() => setTerms(!terms)}
           />
         </Grid.Col>
-        <Grid.Col span={12}>
+        <Grid.Col
+          span={12}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <Button
             leftIcon={<MoodSmile size={24} />}
             fullWidth
@@ -173,10 +185,34 @@ export default function SingUp() {
             radius='lg'
             size='md'
             onClick={() => {
-              signup(email, password);
+              signup({
+                firstName,
+                lastName,
+                email,
+                phone,
+                password,
+                confirmPassword,
+                DOB,
+                gender,
+                terms,
+              });
             }}
           >
             Sign Up
+          </Button>
+          <h6>or</h6>
+          <Button
+            leftIcon={<MoodSmile size={24} />}
+            fullWidth
+            variant='subtle'
+            color='grape'
+            radius='lg'
+            size='md'
+            onClick={() => {
+              navigate('/');
+            }}
+          >
+            Sign In
           </Button>
         </Grid.Col>
       </Grid>

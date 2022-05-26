@@ -4,9 +4,11 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
-import { auth } from '../firebase/index';
+import { auth, db } from '../firebase/index';
 import { Loader } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
+import { useNavigate } from 'react-router-dom';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const AuthContext = createContext();
 
@@ -22,10 +24,16 @@ const useAuth = () => {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      setUser(user);
+    auth.onAuthStateChanged(async (userObj) => {
+      if (userObj) {
+        const userRef = doc(db, 'users', userObj.uid);
+        const user = await getDoc(userRef);
+        setUser(user.data());
+      } else {
+        setUser(null);
+      }
       setLoading(false);
     });
   }, []);
@@ -41,9 +49,51 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const signup = async (email, password) => {
+  const signup = async (params) => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      if (!params.firstName || !params.lastName) {
+        const error = new Error('First name and last name are required');
+        throw error;
+      }
+
+      if (new Date().getTime() - params.DOB.getTime() < 18 * 365 * 24 * 60 * 60 * 1000) {
+        const error = new Error('You must be at least 18 years old');
+        throw error;
+      }
+
+      if (params.password !== params.confirmPassword) {
+        const error = new Error("Passwords don't match");
+        throw error;
+      }
+
+      if (!params.terms) {
+        const error = new Error('You must accept the terms and conditions');
+        throw error;
+      }
+
+      if (!params.email) {
+        const error = new Error('Email is required');
+        throw error;
+      }
+
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        params.email,
+        params.password
+      );
+
+      const userRef = doc(db, 'users', user.uid);
+
+      await setDoc(userRef, {
+        firstName: params.firstName,
+        lastName: params.lastName,
+        email: params.email,
+        DOB: params.DOB,
+        gender: params.gender,
+        id: user.uid,
+      });
+
+      navigate('/');
     } catch (e) {
       showNotification({
         title: 'Sign Up Error',

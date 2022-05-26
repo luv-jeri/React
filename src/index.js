@@ -14,11 +14,11 @@ const root = ReactDOM.createRoot(el);
 root.render(
   <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
     <NotificationsProvider position='top-right' limit={10}>
-      <AuthProvider>
-        <Router>
+      <Router>
+        <AuthProvider>
           <App />
-        </Router>
-      </AuthProvider>
+        </AuthProvider>
+      </Router>
     </NotificationsProvider>
   </MantineProvider>
 );

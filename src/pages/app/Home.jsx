@@ -3,7 +3,9 @@ import { AppShell, Navbar, Header, Button } from '@mantine/core';
 import { At, PhoneCall, MoodSmile } from 'tabler-icons-react';
 import useAuth from '../../context/Auth.context';
 export default function Home() {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+
+  console.log(user);
   return (
     <AppShell
       padding='md'
