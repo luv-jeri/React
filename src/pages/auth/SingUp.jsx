@@ -9,11 +9,12 @@ import {
   Checkbox,
   Button,
   Text,
+  Progress,
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { At, PhoneCall, MoodSmile } from 'tabler-icons-react';
 import useAuth from '../../context/Auth.context';
-
+import uploader from '../../utils/uploader';
 import { useNavigate } from 'react-router-dom';
 
 export default function SingUp() {
@@ -26,6 +27,12 @@ export default function SingUp() {
   const [gender, setGender] = React.useState('');
   const [terms, setTerms] = React.useState(false);
   const [DOB, setDOB] = React.useState(new Date());
+  const [DP, setDP] = React.useState(null);
+  const [uploaded, setUploader] = React.useState(0);
+
+  React.useEffect(() => {
+    if (DP) uploader(DP, setUploader);
+  }, [DP]);
 
   const navigate = useNavigate();
 
@@ -33,6 +40,9 @@ export default function SingUp() {
 
   return (
     <Container>
+      {uploaded && uploaded < 100 ? (
+        <Progress color='grape' radius='lg' size='lg' value={uploaded} striped animate />
+      ) : null}
       <Grid
         style={{
           marginTop: '20px',
@@ -148,6 +158,14 @@ export default function SingUp() {
             <Radio value='female' label='female' />
             <Radio value='other' label='other' />
           </RadioGroup>
+        </Grid.Col>
+        <Grid.Col md={6}>
+          <input
+            type='file'
+            onChange={(e) => {
+              setDP(e.target.files[0]);
+            }}
+          />
         </Grid.Col>
         <Grid.Col md={6}>
           <DatePicker
