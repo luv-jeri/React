@@ -9,6 +9,7 @@ import {
   Avatar,
   Text,
   Divider,
+  Input,
 } from '@mantine/core';
 import { At, PhoneCall, MoodSmile } from 'tabler-icons-react';
 import {
@@ -25,6 +26,15 @@ import greeting from '../../utils/greeting';
 
 export default function Home() {
   const { logout, user } = useAuth();
+
+  const [fields, setFields] = useState([
+    {
+      name: '',
+      data: '',
+    },
+  ]);
+
+  console.log(fields);
 
   return (
     <AppShell
@@ -91,7 +101,34 @@ export default function Home() {
         </Header>
       }
     >
-      App here
+      {fields.map((el, index) => {
+        // console.log(el);
+        return (
+          <Input
+            icon={<At />}
+            variant='filled'
+            placeholder='Something'
+            onChange={(e) => {
+              const tempArr = [...fields];
+              tempArr[index].data = e.target.value;
+              setFields(tempArr);
+            }}
+          />
+        );
+      })}
+      <Button
+        onClick={() => {
+          setFields([
+            ...fields,
+            {
+              name: '',
+              data: '',
+            },
+          ]);
+        }}
+      >
+        Add Fields
+      </Button>
     </AppShell>
   );
 }
