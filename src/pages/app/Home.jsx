@@ -24,12 +24,15 @@ import {
 import useAuth from '../../context/Auth.context';
 import greeting from '../../utils/greeting';
 import FormField from '../../components/FormField';
+import { showNotification } from '@mantine/notifications';
+const Getter = ({ children }) => {
+  console.log(children);
+  return children;
+};
 export default function Home() {
   const { logout, user } = useAuth();
 
   const [fields, setFields] = useState([]);
-
-  console.log(fields);
 
   const attendanceForm = [
     {
@@ -126,18 +129,31 @@ export default function Home() {
           </div>
         );
       })} */}
-      {fields.map((el, index) => {
-        return (
-          <FormField
-            key={index}
-            setFields={setFields}
-            fieldsArr={fields}
-            index={index}
-          ></FormField>
-        );
-      })}
+      <div
+        onChange={(e) => {
+          const i = parseInt(e.target.getAttribute('i'));
+          fields[i] = {
+            ...fields[i],
+            [e.target.id]:
+              e.target.type === 'checkbox' ? e.target.checked : e.target.value,
+          };
+        }}
+      >
+        {fields.map((el, index) => {
+          return <FormField key={index} i={index} />;
+        })}
+      </div>
+
       <Button
         onClick={() => {
+          const lastEl = fields.at(-1);
+
+          if (lastEl && !lastEl.name) {
+            return showNotification({
+              title: 'Error',
+              message: 'Please enter a name',
+            });
+          }
           setFields([...fields, {}]);
         }}
       >
