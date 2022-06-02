@@ -9,7 +9,7 @@ import {
   Avatar,
   Text,
   Divider,
-  Input,
+  TextInput,
 } from '@mantine/core';
 import { At, PhoneCall, MoodSmile } from 'tabler-icons-react';
 import {
@@ -23,18 +23,36 @@ import {
 } from 'tabler-icons-react';
 import useAuth from '../../context/Auth.context';
 import greeting from '../../utils/greeting';
-
+import FormField from '../../components/FormField';
 export default function Home() {
   const { logout, user } = useAuth();
 
-  const [fields, setFields] = useState([
-    {
-      name: '',
-      data: '',
-    },
-  ]);
+  const [fields, setFields] = useState([]);
 
   console.log(fields);
+
+  const attendanceForm = [
+    {
+      name: 'Name',
+      isRequired: true,
+    },
+    {
+      name: 'Email',
+      isRequired: true,
+    },
+    {
+      name: "Todat's Topic",
+      isRequired: true,
+    },
+    {
+      name: 'Assignment',
+      isRequired: false,
+    },
+    {
+      name: 'Materil',
+      isRequired: false,
+    },
+  ];
 
   return (
     <AppShell
@@ -101,30 +119,26 @@ export default function Home() {
         </Header>
       }
     >
-      {fields.map((el, index) => {
-        // console.log(el);
+      {/* {attendanceForm.map((el, index) => {
         return (
-          <Input
-            icon={<At />}
-            variant='filled'
-            placeholder='Something'
-            onChange={(e) => {
-              const tempArr = [...fields];
-              tempArr[index].data = e.target.value;
-              setFields(tempArr);
-            }}
-          />
+          <div>
+            <TextInput placeholder={el.name} label={el.name} required={el.isRequired} />
+          </div>
+        );
+      })} */}
+      {fields.map((el, index) => {
+        return (
+          <FormField
+            key={index}
+            setFields={setFields}
+            fieldsArr={fields}
+            index={index}
+          ></FormField>
         );
       })}
       <Button
         onClick={() => {
-          setFields([
-            ...fields,
-            {
-              name: '',
-              data: '',
-            },
-          ]);
+          setFields([...fields, {}]);
         }}
       >
         Add Fields
