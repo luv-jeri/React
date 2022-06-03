@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Input, Grid, Checkbox } from '@mantine/core';
 
-export default function FormField({ i }) {
+export default function FormField({ i, children }) {
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   return (
     <Grid
       gutter='xl'
@@ -14,6 +20,7 @@ export default function FormField({ i }) {
         <Input
           id='name'
           i={i}
+          ref={inputRef}
           placeholder='Name of the Field'
           label='Field Name'
           description='Enter the name of the field'
@@ -45,6 +52,7 @@ export default function FormField({ i }) {
           size='lg'
         />
       </Grid.Col>
+      <Grid.Col span={4}>{children}</Grid.Col>
     </Grid>
   );
 }

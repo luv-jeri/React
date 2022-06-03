@@ -32,30 +32,43 @@ const Getter = ({ children }) => {
 export default function Home() {
   const { logout, user } = useAuth();
 
-  const [fields, setFields] = useState([]);
+  const [fields, setFields] = useState([{}]);
 
-  console.log('fields', fields);
+  const addField = () => {
+    const lastEl = fields.at(-1); //`  fields[fields.length - 1];
+    if (lastEl && !lastEl.name) {
+      return showNotification({
+        title: 'Error',
+        message: 'Please fill the previous field',
+      });
+    }
+
+    setFields([...fields, {}]);
+  };
+
+  const filedHandler = (e) => {
+    const i = parseInt(e.target.getAttribute('i'));
+    //` EXTRA MUST BE CHECKED
+    if (e.target.id === 'name' && e.target.value === '') {
+      // delete fields[e.target.i];
+      const temp = [...fields];
+      temp.splice(i, 1);
+      setFields(temp);
+    }
+    // ` Real Code
+    const obj = {
+      ...fields[i],
+      [e.target.id]: e.target.type === 'checkbox' ? e.target.checked : e.target.value,
+    };
+    fields[i] = obj;
+  };
 
   const attendanceForm = [
     {
       name: 'Name',
       isRequired: true,
-    },
-    {
-      name: 'Email',
-      isRequired: true,
-    },
-    {
-      name: "Todat's Topic",
-      isRequired: true,
-    },
-    {
-      name: 'Assignment',
-      isRequired: false,
-    },
-    {
-      name: 'Materil',
-      isRequired: false,
+      type: 'text', // 'text', 'number', 'email', 'password', 'checkbox', 'radio', 'select', 'textarea'
+      options: [],
     },
   ];
 
@@ -131,52 +144,20 @@ export default function Home() {
           </div>
         );
       })} */}
+
       <div
-        onChange={(e) => {
-          const i = parseInt(e.target.getAttribute('i'));
-          const obj = {
-            ...fields[i],
-            [e.target.id]:
-              e.target.type === 'checkbox' ? e.target.checked : e.target.value,
-          };
-          fields[i] = obj;
+        onChange={filedHandler}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            addField();
+          }
         }}
       >
         {fields.map((el, index) => {
-          return <FormField key={index} i={index} />;
+          return <FormField key={index} i={index}></FormField>;
         })}
       </div>
-
-      {/* <div
-        onChange={(e) => {
-          const i = parseInt(e.target.getAttribute('i'));
-          fields[i] = {
-            ...fields[i],
-            [e.target.id]:
-              e.target.type === 'checkbox' ? e.target.checked : e.target.value,
-          };
-        }}
-      >
-        {fields.map((el, index) => {
-          return <FormField key={index} i={index} />;
-        })}
-      </div> */}
-
-      <Button
-        onClick={() => {
-          // const lastEl = fields.at(-1);
-
-          // if (lastEl && !lastEl.name) {
-          //   return showNotification({
-          //     title: 'Error',
-          //     message: 'Please enter a name',
-          //   });
-          // }
-          setFields([...fields, {}]);
-        }}
-      >
-        Add Fields
-      </Button>
+      <Button onClick={addField}>Add Fields</Button>
     </AppShell>
   );
 }
