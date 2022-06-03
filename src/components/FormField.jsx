@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import { Input, Grid, Checkbox } from '@mantine/core';
 
 export default function FormField({ i }) {
@@ -19,6 +19,20 @@ export default function FormField({ i }) {
           description='Enter the name of the field'
           radius='md'
           size='md'
+          // onChange={(e) => {
+          //   // const obj = {
+          //   //   ...fields[i],
+          //   //   name: e.target.value,
+          //   // };
+          //   // const temp = [...fields];
+          //   // temp[i] = obj;
+          //   // setFields(temp);
+          //   const obj = {
+          //     ...fields[i],
+          //     name: e.target.value,
+          //   };
+          //   fields[i] = obj;
+          // }}
         />
       </Grid.Col>
       <Grid.Col span={4}>

@@ -34,6 +34,8 @@ export default function Home() {
 
   const [fields, setFields] = useState([]);
 
+  console.log('fields', fields);
+
   const attendanceForm = [
     {
       name: 'Name',
@@ -132,6 +134,22 @@ export default function Home() {
       <div
         onChange={(e) => {
           const i = parseInt(e.target.getAttribute('i'));
+          const obj = {
+            ...fields[i],
+            [e.target.id]:
+              e.target.type === 'checkbox' ? e.target.checked : e.target.value,
+          };
+          fields[i] = obj;
+        }}
+      >
+        {fields.map((el, index) => {
+          return <FormField key={index} i={index} />;
+        })}
+      </div>
+
+      {/* <div
+        onChange={(e) => {
+          const i = parseInt(e.target.getAttribute('i'));
           fields[i] = {
             ...fields[i],
             [e.target.id]:
@@ -142,18 +160,18 @@ export default function Home() {
         {fields.map((el, index) => {
           return <FormField key={index} i={index} />;
         })}
-      </div>
+      </div> */}
 
       <Button
         onClick={() => {
-          const lastEl = fields.at(-1);
+          // const lastEl = fields.at(-1);
 
-          if (lastEl && !lastEl.name) {
-            return showNotification({
-              title: 'Error',
-              message: 'Please enter a name',
-            });
-          }
+          // if (lastEl && !lastEl.name) {
+          //   return showNotification({
+          //     title: 'Error',
+          //     message: 'Please enter a name',
+          //   });
+          // }
           setFields([...fields, {}]);
         }}
       >
