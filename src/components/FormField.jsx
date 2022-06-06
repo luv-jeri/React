@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Input, Grid, Checkbox } from '@mantine/core';
+import { Input, Grid, Checkbox, Select } from '@mantine/core';
 
 export default function FormField({ i, children }) {
   const inputRef = useRef();
@@ -26,20 +26,27 @@ export default function FormField({ i, children }) {
           description='Enter the name of the field'
           radius='md'
           size='md'
-          // onChange={(e) => {
-          //   // const obj = {
-          //   //   ...fields[i],
-          //   //   name: e.target.value,
-          //   // };
-          //   // const temp = [...fields];
-          //   // temp[i] = obj;
-          //   // setFields(temp);
-          //   const obj = {
-          //     ...fields[i],
-          //     name: e.target.value,
-          //   };
-          //   fields[i] = obj;
-          // }}
+        />
+      </Grid.Col>
+      <Grid.Col span={4}>
+        <Select
+          id='type'
+          i={i}
+          placeholder='Pick one type'
+          data={[
+            { value: 'text', label: 'Text' },
+            { value: 'number', label: 'Number' },
+            { value: 'email', label: 'Email' },
+            { value: 'password', label: 'Password' },
+            { value: 'checkbox', label: 'Checkbox' },
+            { value: 'radio', label: 'Radio Button' },
+            { value: 'dropdown', label: 'Drop Down' },
+          ]}
+          searchable
+          onChange={(e) => {
+            // const event = new Event('change');
+            // event.dispatchEvent('onChange', [e]);
+          }}
         />
       </Grid.Col>
       <Grid.Col span={4}>
@@ -52,7 +59,6 @@ export default function FormField({ i, children }) {
           size='lg'
         />
       </Grid.Col>
-      <Grid.Col span={4}>{children}</Grid.Col>
     </Grid>
   );
 }
