@@ -1,45 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import SingIn from './pages/auth/SingIn';
 import SingUp from './pages/auth/SingUp';
 import Layout from './pages/app/Layout';
 import useAuth from './context/Auth.context';
 import { Button, Text } from '@mantine/core';
-
+import Test from './components/Test';
 export default function App() {
-  const { user } = useAuth();
-
-  const [count, setCount] = useState(0);
-
+  const [state, setState] = useState(true);
+  console.log('render App');
   return (
     <div>
-      <Text
-        component='span'
-        align='center'
-        variant='gradient'
-        gradient={{ from: 'indigo', to: 'cyan', deg: 45 }}
-        size='xl'
-        weight={700}
-        style={{ fontFamily: 'Greycliff CF, sans-serif' }}
-      >
-        Count - {count}
-      </Text>
+      {state ? <h3>Hello</h3> : <h3>Bye</h3>}
       <Button
         onClick={() => {
-          setCount((previousState) => {
-            return previousState + 1;
-          });
-          setCount((previousState) => {
-            return previousState + 1;
-          });
+          setState(!state);
         }}
       >
-        Increment{' '}
+        Click
       </Button>
+
+      <Test value={10}></Test>
     </div>
   );
 }
 
+//  const { user } = useAuth();
 // {
 //   !user ? (
 //     <Routes>
