@@ -24,12 +24,15 @@ const useAuth = () => {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
+
   useEffect(() => {
     auth.onAuthStateChanged(async (userObj) => {
       if (userObj) {
-        const userRef = doc(db, 'users', userObj.uid);
-        const user = await getDoc(userRef);
+        // const userRef = doc(db, 'users', userObj.uid);
+        const user = await getDoc(doc(db, 'users', userObj.uid));
+
         setUser(user.data());
       } else {
         setUser(null);

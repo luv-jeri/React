@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Button } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import FormField from '../../components/FormField';
+import { saveDoc, queryForUser } from '../../functions';
+
 export default function CreateForm() {
   const [fields, setFields] = useState([{}]);
 
   const filedHandler = (e) => {
     const i = parseInt(e.target.getAttribute('i'));
-    console.log('+----->>', e.target.type);
+
     //` EXTRA MUST BE CHECKED
     if (e.target.id === 'name' && e.target.value === '') {
       // delete fields[e.target.i];
@@ -35,6 +37,16 @@ export default function CreateForm() {
     setFields([...fields, {}]);
   };
 
+  const saveForm = async () => {
+    const savedForm = await saveDoc('forms', { fields });
+
+    console.log(savedForm);
+  };
+
+  React.useEffect(() => {
+    queryForUser('forms');
+  }, []);
+
   return (
     <div>
       <div
@@ -50,6 +62,7 @@ export default function CreateForm() {
         })}
       </div>
       <Button onClick={addField}>Add Fields</Button>
+      <Button onClick={saveForm}>Save Form</Button>
     </div>
   );
 }
