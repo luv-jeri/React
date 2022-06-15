@@ -3,7 +3,8 @@ import { Button } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import FormField from '../../components/FormField';
 import { saveDoc, queryForUser } from '../../functions';
-import { TextInput } from '@mantine/core';
+import { TextInput, Divider } from '@mantine/core';
+
 export default function CreateForm() {
   const [fields, setFields] = useState([{}]);
   const [title, setTitle] = useState('');
@@ -55,10 +56,11 @@ export default function CreateForm() {
       <TextInput
         id='title'
         placeholder='Title of the Form '
-        label='Title Form'
-        description='Enter the title for the form'
-        radius='md'
-        size='md'
+        label='Form Title '
+        // description='Enter the title for the form'
+        radius='lg'
+        size='lg'
+        required
         onChange={(e) => {
           setTitle(e.target.value);
         }}
@@ -66,6 +68,7 @@ export default function CreateForm() {
           marginBottom: '1rem',
         }}
       />
+      <Divider my='sm' />
       <div
         onChange={filedHandler}
         onKeyDown={(e) => {
@@ -78,8 +81,17 @@ export default function CreateForm() {
           return <FormField key={index} i={index}></FormField>;
         })}
       </div>
-      <Button onClick={addField}>Add Fields</Button>
-      <Button onClick={saveForm}>Save Form</Button>
+     
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >  
+        <Button onClick={addField}>Add Fields</Button>
+        <Button onClick={saveForm}>Save Form</Button>
+      </div>
     </div>
   );
 }

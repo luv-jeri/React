@@ -1,5 +1,6 @@
 import { doc, Timestamp, setDoc, collection } from 'firebase/firestore';
 import { db, auth } from '../firebase';
+import { showNotification } from '@mantine/notifications';
 
 export const saveDoc = async (collectionName, data) => {
   try {
@@ -17,9 +18,18 @@ export const saveDoc = async (collectionName, data) => {
 
     const document = await setDoc(docRef, toSave);
 
+    showNotification({
+      title: `Saved  😁`,
+      message: `${collectionName} saved successfully.`,
+    });
+
     return document;
   } catch (e) {
     console.log(e);
+    showNotification({
+      title: `Error 😢`,
+      message: e.message,
+    });
     return null;
   }
 };
