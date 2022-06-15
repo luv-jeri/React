@@ -94,6 +94,7 @@ export function AuthProvider({ children }) {
         DOB: params.DOB,
         gender: params.gender,
         id: user.uid,
+        DP: params.url,
       });
 
       navigate('/');

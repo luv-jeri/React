@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '../../context/Auth.context';
 import greeting from '../../utils/greeting';
 import CreateForm from './CreateForm.jsx';
+import ViewForm from './ViewForm';
 
 const NavCard = ({ title, page }) => {
   const navigate = useNavigate();
@@ -120,6 +121,7 @@ export default function Layout() {
     >
       <Routes>
         <Route path='/add' element={<CreateForm />}></Route>
+        <Route path='/view' element={<ViewForm />}></Route>
         <Route path='/' element={<h1>Welcome to the ""</h1>}></Route>
       </Routes>
     </AppShell>

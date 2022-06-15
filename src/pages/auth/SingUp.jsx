@@ -29,9 +29,10 @@ export default function SingUp() {
   const [DOB, setDOB] = React.useState(new Date());
   const [DP, setDP] = React.useState(null);
   const [uploaded, setUploader] = React.useState(0);
+  const [url, setUrl] = React.useState('');
 
   React.useEffect(() => {
-    if (DP) uploader(DP, setUploader);
+    if (DP) uploader(DP, setUploader, setUrl);
   }, [DP]);
 
   const navigate = useNavigate();
@@ -213,6 +214,7 @@ export default function SingUp() {
                 DOB,
                 gender,
                 terms,
+                url,
               });
             }}
           >

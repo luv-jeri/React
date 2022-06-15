@@ -1,11 +1,12 @@
-import { doc, addDoc, Timestamp, setDoc, collection } from 'firebase/firestore';
+import { doc, Timestamp, setDoc, collection } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 
 export const saveDoc = async (collectionName, data) => {
   try {
+    //~ Creating a document Ref
     const docRef = doc(collection(db, collectionName));
 
-    const { uid } = auth.currentUser;
+    const { uid } = auth.currentUser; //~ Get the current user's uid
 
     const toSave = {
       ...data,

@@ -3,14 +3,13 @@ import { Button } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import FormField from '../../components/FormField';
 import { saveDoc, queryForUser } from '../../functions';
-
+import { TextInput } from '@mantine/core';
 export default function CreateForm() {
   const [fields, setFields] = useState([{}]);
+  const [title, setTitle] = useState('');
 
   const filedHandler = (e) => {
     const i = parseInt(e.target.getAttribute('i'));
-
-    console.log(e.target.value);
 
     //` EXTRA MUST BE CHECKED
     if (e.target.id === 'name' && e.target.value === '') {
@@ -28,7 +27,9 @@ export default function CreateForm() {
   };
 
   const addField = () => {
+    // To check if the previous field is empty
     const lastEl = fields.at(-1); //`  fields[fields.length - 1];
+
     if (lastEl && !lastEl.name) {
       return showNotification({
         title: 'Error',
@@ -40,15 +41,31 @@ export default function CreateForm() {
   };
 
   const saveForm = async () => {
-    const savedForm = await saveDoc('forms', { fields });
+    const savedForm = await saveDoc('forms', { fields, title });
 
     console.log(savedForm);
   };
 
   React.useEffect(() => {}, []);
 
+  console.log(fields);
+
   return (
     <div>
+      <TextInput
+        id='title'
+        placeholder='Title of the Form '
+        label='Title Form'
+        description='Enter the title for the form'
+        radius='md'
+        size='md'
+        onChange={(e) => {
+          setTitle(e.target.value);
+        }}
+        style={{
+          marginBottom: '1rem',
+        }}
+      />
       <div
         onChange={filedHandler}
         onKeyDown={(e) => {

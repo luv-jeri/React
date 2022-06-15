@@ -1,7 +1,7 @@
 import { storage } from '../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
-const uploader = (file, setUploader) => {
+const uploader = (file, setUploader, setUrl) => {
   console.log('UPLOADER is running');
   try {
     const fileRef = ref(storage, `/DP/${file.name}`);
@@ -17,7 +17,12 @@ const uploader = (file, setUploader) => {
       (error) => {
         console.log(error);
       },
-      (file) => {}
+      async () => {
+        console.log('File uploaded successfully');
+        const url = await getDownloadURL(fileRef);
+
+        setUrl(url);
+      }
     );
   } catch (e) {
     console.log(e);
