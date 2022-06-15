@@ -1,7 +1,7 @@
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 
-export const queryForUser = async (collectionName) => {
+export const queryForUser = async (collectionName, callback) => {
   // ~ Creating a reference to the collection
   const collectionRef = collection(db, collectionName);
   // ~ Getting the user's uid from auth object

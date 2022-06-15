@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Input, Grid, Checkbox, Select } from '@mantine/core';
+import { Input, Grid, Checkbox, Select, NativeSelect } from '@mantine/core';
 
 export default function FormField({ i, children }) {
   const inputRef = useRef();
@@ -29,7 +29,7 @@ export default function FormField({ i, children }) {
         />
       </Grid.Col>
       <Grid.Col span={4}>
-        <Select
+        <NativeSelect
           id='type'
           i={i}
           placeholder='Pick one type'
@@ -43,10 +43,6 @@ export default function FormField({ i, children }) {
             { value: 'dropdown', label: 'Drop Down' },
           ]}
           searchable
-          onChange={(e) => {
-            // const event = new Event('change');
-            // event.dispatchEvent('onChange', [e]);
-          }}
         />
       </Grid.Col>
       <Grid.Col span={4}>

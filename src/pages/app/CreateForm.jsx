@@ -10,6 +10,8 @@ export default function CreateForm() {
   const filedHandler = (e) => {
     const i = parseInt(e.target.getAttribute('i'));
 
+    console.log(e.target.value);
+
     //` EXTRA MUST BE CHECKED
     if (e.target.id === 'name' && e.target.value === '') {
       // delete fields[e.target.i];
@@ -43,9 +45,7 @@ export default function CreateForm() {
     console.log(savedForm);
   };
 
-  React.useEffect(() => {
-    queryForUser('forms');
-  }, []);
+  React.useEffect(() => {}, []);
 
   return (
     <div>
