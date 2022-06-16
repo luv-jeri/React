@@ -1,8 +1,9 @@
 import React, { useRef, useEffect } from 'react';
-import { Input, Grid, Checkbox, Select, NativeSelect } from '@mantine/core';
+import { Input, Grid, Checkbox, Select, NativeSelect, Textarea } from '@mantine/core';
 
 export default function FormField({ i, children }) {
   const inputRef = useRef();
+  const [showOptions, setShowOptions] = React.useState(true);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -16,7 +17,7 @@ export default function FormField({ i, children }) {
         alignItems: 'center',
       }}
     >
-      <Grid.Col span={4}>
+      <Grid.Col span={3}>
         <Input
           id='name'
           i={i}
@@ -28,7 +29,7 @@ export default function FormField({ i, children }) {
           size='md'
         />
       </Grid.Col>
-      <Grid.Col span={4}>
+      <Grid.Col span={3}>
         <NativeSelect
           id='type'
           i={i}
@@ -43,9 +44,12 @@ export default function FormField({ i, children }) {
             { value: 'dropdown', label: 'Drop Down' },
           ]}
           searchable
+          onChange={(e) => {
+            setShowOptions(e.target.value === 'dropdown' || e.target.value === 'radio');
+          }}
         />
       </Grid.Col>
-      <Grid.Col span={4}>
+      <Grid.Col span={3}>
         <Checkbox
           id='isRequired'
           i={i}
@@ -55,6 +59,11 @@ export default function FormField({ i, children }) {
           size='lg'
         />
       </Grid.Col>
+      {showOptions ? (
+        <Grid.Col span={3}>
+          <Textarea placeholder='Options' label='Options' required />
+        </Grid.Col>
+      ) : null}
     </Grid>
   );
 }
