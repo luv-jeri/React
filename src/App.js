@@ -1,23 +1,25 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import SingIn from './pages/auth/SingIn';
-import SingUp from './pages/auth/SingUp';
-import Layout from './pages/app/Layout';
-import useAuth from './context/Auth.context';
-
+import { TextInput, Container } from '@mantine/core';
+import List from './List';
 export default function App() {
-  const { user } = useAuth();
+  const [search, setSearch] = React.useState('');
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  console.log(search);
 
   return (
-    <>
-      {!user ? (
-        <Routes>
-          <Route path='/' element={<SingIn />}></Route>
-          <Route path='/join' element={<SingUp />}></Route>
-        </Routes>
-      ) : (
-        <Layout />
-      )}
-    </>
+    <Container>
+      <TextInput
+        placeholder='Search'
+        label='Some Search'
+        onChange={handleSearchChange}
+        required
+      />
+
+      <List toSearch={search}></List>
+    </Container>
   );
 }
