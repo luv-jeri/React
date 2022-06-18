@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
-import { Input, Grid, Checkbox, Select, NativeSelect, Textarea } from '@mantine/core';
+import { Input, Grid, Checkbox, NativeSelect, Textarea } from '@mantine/core';
 
-export default function FormField({ i, children }) {
+function FormField({ i }) {
   const inputRef = useRef();
   const [showOptions, setShowOptions] = React.useState(true);
 
@@ -61,9 +61,11 @@ export default function FormField({ i, children }) {
       </Grid.Col>
       {showOptions ? (
         <Grid.Col span={3}>
-          <Textarea placeholder='Options' label='Options' required />
+          <Textarea id='list' placeholder='Options' label='Options' required />
         </Grid.Col>
       ) : null}
     </Grid>
   );
 }
+
+export default React.memo(FormField);

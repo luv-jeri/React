@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button } from '@mantine/core';
+import React, { useState, useRef } from 'react';
+import LoaderButton from '../../components/LoaderButton';
 import { showNotification } from '@mantine/notifications';
 import FormField from '../../components/FormField';
 import { saveDoc, queryForUser } from '../../functions';
@@ -7,9 +7,10 @@ import { TextInput, Divider } from '@mantine/core';
 
 export default function CreateForm() {
   const [fields, setFields] = useState([{}]);
-  const [title, setTitle] = useState('');
+  const title = useRef('');
 
   const filedHandler = (e) => {
+    console.log('e.target.type', e.target.type, e.target.value.split(','));
     const i = parseInt(e.target.getAttribute('i'));
 
     //` EXTRA MUST BE CHECKED
@@ -19,13 +20,22 @@ export default function CreateForm() {
       temp.splice(i, 1);
       setFields(temp);
     }
+
     // ` Real Code
     const obj = {
       ...fields[i],
-      [e.target.id]: e.target.type === 'checkbox' ? e.target.checked : e.target.value,
+      [e.target.id]:
+        e.target.type === 'checkbox'
+          ? e.target.checked
+          : e.target.type === 'textarea'
+          ? e.target.value.split(',')
+          : e.target.value,
     };
+
     fields[i] = obj;
   };
+
+  console.log(fields);
 
   const addField = () => {
     // To check if the previous field is empty
@@ -42,14 +52,10 @@ export default function CreateForm() {
   };
 
   const saveForm = async () => {
-    const savedForm = await saveDoc('forms', { fields, title });
+    const savedForm = await saveDoc('forms', { fields, title: title.current });
 
     console.log(savedForm);
   };
-
-  React.useEffect(() => {}, []);
-
-  console.log(fields);
 
   return (
     <div>
@@ -62,7 +68,7 @@ export default function CreateForm() {
         size='lg'
         required
         onChange={(e) => {
-          setTitle(e.target.value);
+          title.current = e.target.value;
         }}
         style={{
           marginBottom: '1rem',
@@ -81,16 +87,16 @@ export default function CreateForm() {
           return <FormField key={index} i={index}></FormField>;
         })}
       </div>
-     
+
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
         }}
-      >  
-        <Button onClick={addField}>Add Fields</Button>
-        <Button onClick={saveForm}>Save Form</Button>
+      >
+        <LoaderButton onClick={addField}>Add Filed</LoaderButton>
+        <LoaderButton onClick={saveForm}>Save Form</LoaderButton>
       </div>
     </div>
   );
