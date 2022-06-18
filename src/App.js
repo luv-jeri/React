@@ -1,8 +1,8 @@
 import React from 'react';
 import { TextInput, Container } from '@mantine/core';
-import List from './List';
+import useOffline from './useOffline';
 export default function App() {
-  const [search, setSearch] = React.useState('');
+  const [search, setSearch] = useOffline('search', '');
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
@@ -12,14 +12,14 @@ export default function App() {
 
   return (
     <Container>
+      s
       <TextInput
         placeholder='Search'
         label='Some Search'
         onChange={handleSearchChange}
         required
+        value={search}
       />
-
-      <List toSearch={search}></List>
     </Container>
   );
 }
