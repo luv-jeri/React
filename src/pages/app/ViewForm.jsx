@@ -38,15 +38,7 @@ export default function ViewForm() {
   useEffect(() => {
     const rows = selectedFormData.map((element) => {
       console.log(element.Name);
-      return (
-        <tr>
-          <td>{element.Name}</td>
-          <td>{element.Email}</td>
-          <td>{element.completed ? 'yes' : 'no'}</td>
-          {/* <td>{element.Timestamp}</td> */}
-          <td>{element.Resources}</td>
-        </tr>
-      );
+      return <tr>{UI.map()}</tr>;
     });
     setRows(rows);
   }, [selectedFormData]);
