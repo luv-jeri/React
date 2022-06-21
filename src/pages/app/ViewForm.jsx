@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
-import { getUserDocs } from '../../functions';
-import { Button, TextInput, Checkbox } from '@mantine/core';
+import { getUserDocs, getDataWithQuery } from '../../functions';
+import { Button, TextInput, Checkbox, Table } from '@mantine/core';
 import { saveDoc } from '../../functions';
+
 export default function ViewForm() {
   const [fromList, setFormList] = useState([]);
   const [UI, setUI] = useState([]);
   const [data, setData] = useState({});
-  console.log('⭕⭕', data);
+  const [selectedForm, setSelectedForm] = useState('');
+  const [selectedFormData, setSelectedFormData] = useState([]);
+  const [rows, setRows] = useState([]);
 
   // # Using ES6 async await
   const getForms = async () => {
@@ -22,6 +25,34 @@ export default function ViewForm() {
     getForms();
   }, []);
 
+  useEffect(() => {
+    getDataWithQuery('data', {
+      field: 'formID',
+      op: '==',
+      value: selectedForm,
+    }).then((data) => {
+      setSelectedFormData(data);
+    });
+  }, [selectedForm]);
+
+  useEffect(() => {
+    const rows = selectedFormData.map((element) => {
+      console.log(element.Name);
+      return (
+        <tr>
+          <td>{element.Name}</td>
+          <td>{element.Email}</td>
+          <td>{element.completed ? 'yes' : 'no'}</td>
+          {/* <td>{element.Timestamp}</td> */}
+          <td>{element.Resources}</td>
+        </tr>
+      );
+    });
+    setRows(rows);
+  }, [selectedFormData]);
+
+  console.log(rows);
+
   // # Using promises
   // useEffect(() => {
   //   getUserDocs('forms').then((data) => {
@@ -36,6 +67,7 @@ export default function ViewForm() {
 
   return (
     <div>
+      {/* List of Forms in a Tab manner */}
       {fromList.map((el, index) => {
         return (
           <Button
@@ -44,6 +76,7 @@ export default function ViewForm() {
             size='lg'
             onClick={() => {
               setUI(el.fields);
+              setSelectedForm(el.id);
 
               setData({
                 formID: el.id,
@@ -56,7 +89,6 @@ export default function ViewForm() {
           </Button>
         );
       })}
-
       <div>
         {UI.map((el) => {
           // console.log(el);
@@ -112,6 +144,31 @@ export default function ViewForm() {
       >
         Save Data
       </Button>
+      <Button
+        color='teal'
+        radius='xs'
+        size='lg'
+        onClick={() => {
+          saveDoc('data', {
+            ...data,
+          });
+        }}
+        compact
+        uppercase
+      >
+        View Data
+      </Button>
+
+      <Table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Is Completed</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </Table>
     </div>
   );
 }
