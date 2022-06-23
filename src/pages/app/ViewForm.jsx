@@ -10,6 +10,7 @@ export default function ViewForm() {
   const [selectedForm, setSelectedForm] = useState('');
   const [selectedFormData, setSelectedFormData] = useState([]);
   const [rows, setRows] = useState([]);
+  const [view, setView] = useState(false);
 
   // # Using ES6 async await
   const getForms = async () => {
@@ -34,16 +35,6 @@ export default function ViewForm() {
       setSelectedFormData(data);
     });
   }, [selectedForm]);
-
-  useEffect(() => {
-    const rows = selectedFormData.map((element) => {
-      console.log(element.Name);
-      return <tr>{UI.map()}</tr>;
-    });
-    setRows(rows);
-  }, [selectedFormData]);
-
-  console.log(rows);
 
   // # Using promises
   // useEffect(() => {
@@ -81,47 +72,49 @@ export default function ViewForm() {
           </Button>
         );
       })}
-      <div>
-        {UI.map((el) => {
-          // console.log(el);
-          return (
-            <div
-              style={{
-                marginTop: '10px',
-              }}
-            >
-              {el.type === 'checkbox' ? (
-                <Checkbox
-                  label={el.name}
-                  onChange={(e) => {
-                    setData({
-                      ...data,
-                      [el.name]: e.target.checked,
-                    });
-                  }}
-                />
-              ) : (
-                <TextInput
-                  label={el.name}
-                  type={el.type}
-                  onChange={(e) => {
-                    // const temp = { ...data };
+      {!view ? (
+        <div>
+          {UI.map((el) => {
+            // console.log(el);
+            return (
+              <div
+                style={{
+                  marginTop: '10px',
+                }}
+              >
+                {el.type === 'checkbox' ? (
+                  <Checkbox
+                    label={el.name}
+                    onChange={(e) => {
+                      setData({
+                        ...data,
+                        [el.name]: e.target.checked,
+                      });
+                    }}
+                  />
+                ) : (
+                  <TextInput
+                    label={el.name}
+                    type={el.type}
+                    onChange={(e) => {
+                      // const temp = { ...data };
 
-                    // temp[el.name] = e.target.value;
+                      // temp[el.name] = e.target.value;
 
-                    // setData(temp);
+                      // setData(temp);
 
-                    setData({
-                      ...data,
-                      [el.name]: e.target.value,
-                    });
-                  }}
-                />
-              )}
-            </div>
-          );
-        })}
-      </div>
+                      setData({
+                        ...data,
+                        [el.name]: e.target.value,
+                      });
+                    }}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ) : null}
       <Button
         color='teal'
         radius='xs'
@@ -141,26 +134,37 @@ export default function ViewForm() {
         radius='xs'
         size='lg'
         onClick={() => {
-          saveDoc('data', {
-            ...data,
-          });
+          setView(!view);
         }}
         compact
         uppercase
       >
-        View Data
+        {!view ? 'View' : 'Hide'} Data
       </Button>
 
-      <Table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Is Completed</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
+      {view ? (
+        <Table>
+          <thead>
+            <tr>
+              {UI.map((el) => {
+                return <th>{el.name}</th>;
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {selectedFormData.map((data) => {
+              return (
+                <tr>
+                  {UI.map((ui) => {
+                    return <td>{data[ui.name]}</td>;
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+          {/* <tbody>{rows}</tbody> */}
+        </Table>
+      ) : null}
     </div>
   );
 }
