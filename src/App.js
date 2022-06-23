@@ -1,90 +1,54 @@
 import './App.css';
 import { useState } from 'react';
-
-// const useState = (initial) => {
-//   let specialVariable = initial;
-//   const aFunctionThatChangesTheSpecialVariable = (value) => {
-//     specialVariable = value;
-//     root.render();
-//   };
-//   return [specialVariable, aFunctionThatChangesTheSpecialVariable];
-// };
+import { useSelector, useDispatch } from 'react-redux';
 
 function App() {
-  const classForTheContainer = 'container';
+  const name = useSelector((state) => state.name);
+  const count = useSelector((state) => state.count);
+  const [_name, setName] = useState('');
 
-  const special = useState(0);
-  const [count, setCount] = special;
+  // const r = useSelector((state) => state);
 
-  const [color, setColor] = useState('black');
+  // const name = r.name;
+  // const count = r.count;
 
-  const boxStyle = {
-    margin: '10px',
-    border: '1px solid red',
-    borderRadius: '10%',
-    backgroundColor: color,
-  };
+  const dispatch = useDispatch(); //` store.dispatch
 
   return (
-    <div className={classForTheContainer}>
+    <div className='container'>
+      <h1> Redux </h1>
+      <h3>Count : {count}</h3>
+      <h3>Name : {name}</h3>
+      <input type='text' value={_name} onChange={(e) => setName(e.target.value)} />
+      <br />
       <button
-        className='btn'
         onClick={() => {
-          setCount(count + 1);
+          dispatch({ type: 'inc' });
         }}
       >
-        Increase
+        ➕
       </button>
       <button
-        className='btn'
         onClick={() => {
-          setCount(count - 1);
+          dispatch({ type: 'dec' });
         }}
       >
-        Decrease
+        ➖
       </button>
-      <div className='wrap'>
-        <div className='box' style={boxStyle}></div>
-      </div>
-      {count}
-      <div className='wrap'>
-        <button
-          className='btn'
-          onClick={() => {
-            setColor('red');
-            console.log(color);
-          }}
-        >
-          Red
-        </button>
-        <button
-          className='btn'
-          onClick={() => {
-            setColor('Yellow');
-            console.log(color);
-          }}
-        >
-          Yellow
-        </button>
-        <button
-          className='btn'
-          onClick={() => {
-            setColor('Green');
-            console.log(color);
-          }}
-        >
-          Green
-        </button>
-        <button
-          className='btn'
-          onClick={() => {
-            setColor('Blue');
-            console.log(color);
-          }}
-        >
-          Blue
-        </button>
-      </div>
+      <button
+        onClick={() => {
+          dispatch({ type: 'set', value: _name });
+        }}
+      >
+        😎
+      </button>
+      <button
+        onClick={() => {
+          dispatch({ type: 'unset' });
+        }}
+      >
+        🥲
+      </button>
     </div>
   );
 }
