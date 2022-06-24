@@ -9,16 +9,15 @@ import axios from 'axios';
 //     payload: data,
 //   };
 // };
-const getTodo = () => {
-  return async (dispatch, getState) => {
-    console.log(getState());
-    const { data } = await axios.get('https://jsonplaceholder.typicode.com/todos');
 
-    dispatch({
-      type: ACTION.GET_TODO,
-      payload: data,
-    });
-  };
+const getTodo = () => async (dispatch, getState) => {
+  console.log(getState());
+  const { data } = await axios.get('https://jsonplaceholder.typicode.com/todos');
+
+  dispatch({
+    type: ACTION.GET_TODO,
+    payload: data,
+  });
 };
 
 const resetTodo = () => {
