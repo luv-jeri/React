@@ -1,9 +1,6 @@
 const ACTION = {
-  INC: 'inc',
-  DEC: 'dec',
-  SET: 'set',
-  UNSET: 'unset',
-  ARROW: 'arrow',
+  GET_TODO: 'get_todo',
+  RESET_TODO: 'reset_todo',
 };
 
 export default ACTION;
