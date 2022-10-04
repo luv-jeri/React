@@ -1,23 +1,34 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import SingIn from './pages/auth/SingIn';
-import SingUp from './pages/auth/SingUp';
-import Layout from './pages/app/Layout';
-import useAuth from './context/Auth.context';
+import React, { useState } from 'react';
+import axios from 'axios';
+import cheerio from 'cheerio';
 
 export default function App() {
-  const { user } = useAuth();
+  const [state, setState] = useState(null);
+  const getData = async () => {
+    const { data } = await axios.get('http://localhost:5000');
+    console.log('data', data);
+
+    let names = [];
+    let $ = cheerio.load(data);
+
+    // find what element ids, classes, or tags you want from opening console in the browser
+    // cheerio library lets you select elements similar to querySelector
+    $('#content').each(function (i, element) {
+      console.log(i , element);
+      // let name = $(names).prepend().text();
+      // names.push(name);
+    });
+
+    setState({ names });
+  };
+  console.log(state)
 
   return (
-    <>
-      {!user ? (
-        <Routes>
-          <Route path='/' element={<SingIn />}></Route>
-          <Route path='/join' element={<SingUp />}></Route>
-        </Routes>
-      ) : (
-        <Layout />
-      )}
-    </>
+    <div>
+      <button onClick={getData}>GET DATA</button>
+    </div>
   );
 }
+
+
+
